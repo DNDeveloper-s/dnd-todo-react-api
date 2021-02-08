@@ -74,6 +74,6 @@
     "rootDir": "./",
     "outDir": "./build",
     "esModuleInterop": true,
-    "strict": true
+    "strict": false
   }
 }
