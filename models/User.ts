@@ -44,8 +44,14 @@ const userSchema = new Schema({
 				ref: 'Task'
 			}],
 			global: {
-    		toggleCollapse: Object
-			}
+				plugins: {
+					whatsApp: {
+						isEnabled: Boolean,
+						waNumber: Number
+					}
+				},
+				toggleCollapse: Object,
+			},
     },
     friends: [
 			{

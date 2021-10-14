@@ -3,7 +3,7 @@ const { body } = require('express-validator');
 
 const router = express.Router();
 
-const { postSignup, postLogin } = require('../controllers/authController');
+const { postSignup, postLogin, sendVerificationCode, verifyCode } = require('../controllers/authController');
 
 // These routes comes under 'auth' namespace
 router.post('/signup',
@@ -46,5 +46,21 @@ router.post('/login',
 		.isEmail()
 		.withMessage('Invalid Email'),
 	postLogin);
+
+router.post('/send-code',
+	// email must be an email
+	body('email')
+		.trim()
+		.isEmail()
+		.withMessage('Invalid Email'),
+	sendVerificationCode);
+
+router.post('/verify-code',
+	// email must be an email
+	body('token')
+		.trim()
+		.isLength({ min: 6, max: 6 })
+		.withMessage('Code must be of 6 characters'),
+	verifyCode);
 
 export default router;
