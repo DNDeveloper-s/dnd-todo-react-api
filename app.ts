@@ -9,10 +9,11 @@ const socketIo = require('socket.io');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 import {docData} from "./docs/docs";
 
-const app = express();
-const port = process.env.PORT || 5000;
 
 require("dotenv").config();
+
+const app = express();
+const port = process.env.PORT || 5000;
 
 // MongoDB URI | Special
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}cluster0-zlxgj.mongodb.net/${process.env.MONGODB_DB_NAME}`;
@@ -86,7 +87,9 @@ mongoose.connect(uri, { useFindAndModify: false }).then(() => {
 
   // Setting up connection to Socket.io
   // const io = require("./socket.ts")(server);
-  const io = require("./socket")(server);
+  // const io = require("./socket")(server);
+
+  const io = {};
 
   // const job = schedule.scheduleJob('*/606060 * * * *', function() {
   //   console.log('[app.ts || Line no. 119 ....]', 'Running thousand time');
