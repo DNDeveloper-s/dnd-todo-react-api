@@ -3,11 +3,6 @@ import mongoose from 'mongoose';
 import bodyParser from "body-parser";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi, {SwaggerOptions} from "swagger-ui-express";
-import schedule from 'node-schedule';
-import http from 'http';
-const socketIo = require('socket.io');
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-import {docData} from "./docs/docs";
 
 
 require("dotenv").config();
