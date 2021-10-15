@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from "body-parser";
-import swaggerJsDoc from "swagger-jsdoc";
-import swaggerUi, {SwaggerOptions} from "swagger-ui-express";
+// import swaggerJsDoc from "swagger-jsdoc";
+// import swaggerUi, {SwaggerOptions} from "swagger-ui-express";
 
 
 require("dotenv").config();
@@ -21,22 +21,22 @@ import projectRoutes from "./routes/projectRoutes";
 import taskRoutes from "./routes/taskRoutes";
 import swaggerRoutes from "./routes/swaggerRoutes";
 
-const swaggerOptions: SwaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      title: 'DND Todo React Api',
-      description: 'Fully fledged todo application built on top of the react.',
-      contact: {
-        name: 'DNDeveloper'
-      },
-      servers: ['http://localhost:' + port]
-    }
-  },
-  apis: ['./routes/*.ts']
-};
+// const swaggerOptions: SwaggerOptions = {
+//   swaggerDefinition: {
+//     info: {
+//       title: 'DND Todo React Api',
+//       description: 'Fully fledged todo application built on top of the react.',
+//       contact: {
+//         name: 'DNDeveloper'
+//       },
+//       servers: ['http://localhost:' + port]
+//     }
+//   },
+//   apis: ['./routes/*.ts']
+// };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// const swaggerDocs = swaggerJsDoc(swaggerOptions);
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Setting up api access permissions
 app.use((req: any, res: { setHeader: (arg0: string, arg1: string) => void; }, next: () => void) => {
