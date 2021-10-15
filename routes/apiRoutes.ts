@@ -5,7 +5,6 @@ import {
 	getNotifications,
 	handleUserSearch,
 	postAppGlobalData,
-	replyToTwilo,
 	updateNotificationStatus,
 	validateToken
 } from "../controllers/apiController";
