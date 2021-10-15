@@ -201,38 +201,38 @@ export const createTask = async (req: express.Request, res: express.Response, ne
 	}
 };
 
-export const createWaTask = async (content, curUserId, req) => {
-	const user = await User.findById(curUserId);
-	const newTaskObj = {
-		priority: 0,
-		deleted: 0,
-		isFullDay: true,
-		projectId: null,
-		labelIds: [],
-		status: {completed: false, prevColumnId: "2"},
-		content,
-		inItemMode: false,
-		childTasks: [],
-		parentTask: null,
-		createdAt: new Date().toISOString(),
-		creator: curUserId,
-		subscribers: []
-	};
+// export const createWaTask = async (content, curUserId, req) => {
+// 	const user = await User.findById(curUserId);
+// 	const newTaskObj = {
+// 		priority: 0,
+// 		deleted: 0,
+// 		isFullDay: true,
+// 		projectId: null,
+// 		labelIds: [],
+// 		status: {completed: false, prevColumnId: "2"},
+// 		content,
+// 		inItemMode: false,
+// 		childTasks: [],
+// 		parentTask: null,
+// 		createdAt: new Date().toISOString(),
+// 		creator: curUserId,
+// 		subscribers: []
+// 	};
 
-	const task = new Task(newTaskObj);
+// 	const task = new Task(newTaskObj);
 
-	// Saving Data
-	user.appData.tasks.push(task._id);
-	user.appData.taskOrder.splice(0, 0, task._id);
-	await task.save();
-	await user.save();
+// 	// Saving Data
+// 	user.appData.tasks.push(task._id);
+// 	user.appData.taskOrder.splice(0, 0, task._id);
+// 	await task.save();
+// 	await user.save();
 
-	// Sending it to all the collaborators if it is related to the project
-	const io = req.app.get('socket.io');
-	io.to(user.socketId).emit('task_created', {taskId: task._id});
+// 	// Sending it to all the collaborators if it is related to the project
+// 	const io = req.app.get('socket.io');
+// 	io.to(user.socketId).emit('task_created', {taskId: task._id});
 
-	return task._id;
-}
+// 	return task._id;
+// }
 
 function omitUndefined(obj: object): object {
 	const resObj = {};

@@ -1,26 +1,26 @@
 import * as express from 'express';
 import User from '../models/User';
 import {constants} from "../helpers/constants";
-import MessagingResponse from "twilio/lib/twiml/MessagingResponse";
-import {createWaTask} from "./taskController";
+// import MessagingResponse from "twilio/lib/twiml/MessagingResponse";
+// import {createWaTask} from "./taskController";
 import createError from 'http-errors';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: 'noreply.dndtodo@gmail.com',
-		pass: 'dndtodoapp'
-	}
-});
+// const transporter = nodemailer.createTransport({
+// 	service: 'gmail',
+// 	auth: {
+// 		user: 'noreply.dndtodo@gmail.com',
+// 		pass: 'dndtodoapp'
+// 	}
+// });
 
-const mailOptions = {
-	from: 'noreply.dndtodo@gmail.com',
-	to: 'saurs2000@gmail.com',
-	subject: 'DND-Todo Reminder',
-	text: 'Do this task related to the time right now!'
-};
+// const mailOptions = {
+// 	from: 'noreply.dndtodo@gmail.com',
+// 	to: 'saurs2000@gmail.com',
+// 	subject: 'DND-Todo Reminder',
+// 	text: 'Do this task related to the time right now!'
+// };
 
 export const getCurrentUser = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
     // @ts-ignore
