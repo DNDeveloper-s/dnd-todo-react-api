@@ -231,65 +231,65 @@ export const updateNotificationStatus = async (req: express.Request, res: expres
   }
 };
 
-export const replyToTwilo = async(req: express.Request, res: express.Response, next: (error: any) => void) => {
-	// const client = require('twilio')();
-	// client.messages.create({
-	// 	from: 'whatsapp:+14155238886',
-	// 	to: 'whatsapp:+919319825600',
-	// 	body: 'Hello DNDeveloper,	q from the DND-Todo app.'
-	// }).then(c => console.log('[apiController.ts || Line no. 223 ....]', c.sid))
-	// 	.catch(e => console.log('[apiController.ts || Line no. 224 ....]', e));
+// export const replyToTwilo = async(req: express.Request, res: express.Response, next: (error: any) => void) => {
+// 	// const client = require('twilio')();
+// 	// client.messages.create({
+// 	// 	from: 'whatsapp:+14155238886',
+// 	// 	to: 'whatsapp:+919319825600',
+// 	// 	body: 'Hello DNDeveloper,	q from the DND-Todo app.'
+// 	// }).then(c => console.log('[apiController.ts || Line no. 223 ....]', c.sid))
+// 	// 	.catch(e => console.log('[apiController.ts || Line no. 224 ....]', e));
 
 
-	const twiml = new MessagingResponse();
-	console.log('[app.ts || Line no. 89 ....]', req.body);
-	// @ts-ignore
-	const message = twiml.message();
-	const user = await User.findOne({'waNumber': req.body.WaId});
+// 	const twiml = new MessagingResponse();
+// 	console.log('[app.ts || Line no. 89 ....]', req.body);
+// 	// @ts-ignore
+// 	const message = twiml.message();
+// 	const user = await User.findOne({'waNumber': req.body.WaId});
 
-	// Handling the case where
-	// the whatsapp number is not attached with any account
-	if(!user) {
-		let str = `Hey ${req.body.ProfileName}, No user has been attached with this number to the DND-Todo app
-https://bfacf9d4576a.ngrok.io`;
+// 	// Handling the case where
+// 	// the whatsapp number is not attached with any account
+// 	if(!user) {
+// 		let str = `Hey ${req.body.ProfileName}, No user has been attached with this number to the DND-Todo app
+// https://bfacf9d4576a.ngrok.io`;
 
-		message.body(str);
-		// message.body('Task *' + req.body.Body + '* has been added successfully!');
-		// message.media('https://demo.twilio.com/owl.png');
-		res.writeHead(200, {'Content-Type': 'text/xml'});
-		return res.end(twiml.toString());
-	}
+// 		message.body(str);
+// 		// message.body('Task *' + req.body.Body + '* has been added successfully!');
+// 		// message.media('https://demo.twilio.com/owl.png');
+// 		res.writeHead(200, {'Content-Type': 'text/xml'});
+// 		return res.end(twiml.toString());
+// 	}
 
-	// Handling the case where
-	// the plugin whatsapp is not enabled
-	if(!user.appData.global.plugins?.whatsApp?.isEnabled) {
-		let str = `Hey ${req.body.ProfileName}, You are not subscribed to our app.
-Please login to dnd-todo-app using the following url
-https://bfacf9d4576a.ngrok.io`;
+// 	// Handling the case where
+// 	// the plugin whatsapp is not enabled
+// 	if(!user.appData.global.plugins?.whatsApp?.isEnabled) {
+// 		let str = `Hey ${req.body.ProfileName}, You are not subscribed to our app.
+// Please login to dnd-todo-app using the following url
+// https://bfacf9d4576a.ngrok.io`;
 
-		message.body(str);
-		// message.body('Task *' + req.body.Body + '* has been added successfully!');
-		// message.media('https://demo.twilio.com/owl.png');
-		res.writeHead(200, {'Content-Type': 'text/xml'});
-		return res.end(twiml.toString());
-	}
+// 		message.body(str);
+// 		// message.body('Task *' + req.body.Body + '* has been added successfully!');
+// 		// message.media('https://demo.twilio.com/owl.png');
+// 		res.writeHead(200, {'Content-Type': 'text/xml'});
+// 		return res.end(twiml.toString());
+// 	}
 
-// 	user.appData.tasks.forEach((task, ind) => {
-// 		str += `
-// *${ind+1}*. _${task.content.trim()}_ ☑️`;
-// 	});
+// // 	user.appData.tasks.forEach((task, ind) => {
+// // 		str += `
+// // *${ind+1}*. _${task.content.trim()}_ ☑️`;
+// // 	});
 
-	const taskId = await createWaTask(req.body.Body, user._id, req);
-	// console.log('[apiController.ts || Line no. 273 ....]', taskId);
+// 	const taskId = await createWaTask(req.body.Body, user._id, req);
+// 	// console.log('[apiController.ts || Line no. 273 ....]', taskId);
 
-	let str = `Hey ${req.body.ProfileName},`;
-	str += `
-Task *${req.body.Body}* has been added successfully
-Task Link: https://08f978528e68.ngrok.io/app/inbox/tasks/${taskId}`;
+// 	let str = `Hey ${req.body.ProfileName},`;
+// 	str += `
+// Task *${req.body.Body}* has been added successfully
+// Task Link: https://08f978528e68.ngrok.io/app/inbox/tasks/${taskId}`;
 
-	message.body(str);
-	// message.body('Task *' + req.body.Body + '* has been added successfully!');
-	// message.media('https://demo.twilio.com/owl.png');
-	res.writeHead(200, {'Content-Type': 'text/xml'});
-	res.end(twiml.toString());
-};
+// 	message.body(str);
+// 	// message.body('Task *' + req.body.Body + '* has been added successfully!');
+// 	// message.media('https://demo.twilio.com/owl.png');
+// 	res.writeHead(200, {'Content-Type': 'text/xml'});
+// 	res.end(twiml.toString());
+// };

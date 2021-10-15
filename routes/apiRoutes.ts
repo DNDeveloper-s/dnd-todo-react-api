@@ -63,7 +63,7 @@ apiRoutes.post('/app-global-data', isAuth, postAppGlobalData);
 apiRoutes.post('/validate-token', validateToken);
 apiRoutes.post('/update-notification-status', updateNotificationStatus);
 
-apiRoutes.post('/sms', replyToTwilo);
+// apiRoutes.post('/sms', replyToTwilo);
 // apiRoutes.post('/recipe', createRecipe);
 // apiRoutes.post('/ingredient', createIngredient);
 
