@@ -4,8 +4,8 @@ import VerifyEmail from "../models/VerifyEmail";
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
-const main = require('../mail');
-import { authenticator, totp } from 'otplib';
+// const main = require('../mail');
+// import { authenticator, totp } from 'otplib';
 const { validationResult } = require('express-validator');
 
 
@@ -94,82 +94,82 @@ module.exports.postLogin = async (req: express.Request, res: express.Response, n
     }
 }
 
-module.exports.sendVerificationCode = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
-    const { email } = req.body;
+// module.exports.sendVerificationCode = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
+//     const { email } = req.body;
 
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return next(createError(401, errors.errors[0].msg, {errorKey: errors.errors[0].param}));
-        }
+//     try {
+//         const errors = validationResult(req);
+//         if (!errors.isEmpty()) {
+//             return next(createError(401, errors.errors[0].msg, {errorKey: errors.errors[0].param}));
+//         }
 
-        // Checking if user is already exists
-        let user = await User.findOne({email});
+//         // Checking if user is already exists
+//         let user = await User.findOne({email});
 
-        if(user) {
-            return next(createError(401, 'User with the email already exists', {errorKey: 'email'}));
-        }
+//         if(user) {
+//             return next(createError(401, 'User with the email already exists', {errorKey: 'email'}));
+//         }
 
-        const secret = authenticator.generateSecret();
-        const token = totp.generate(secret);
+//         const secret = authenticator.generateSecret();
+//         const token = totp.generate(secret);
 
-        main(email, token).catch((e) => {
-            console.log('Line no. 109', e);
-            return next(createError(500, e.message, {errorKey: 'serverErr'}));
-        });
+//         main(email, token).catch((e) => {
+//             console.log('Line no. 109', e);
+//             return next(createError(500, e.message, {errorKey: 'serverErr'}));
+//         });
 
-        // Checking for any preexisting
-        const isExist = await VerifyEmail.findOne({email});
-        if(isExist) await VerifyEmail.findByIdAndRemove(isExist._id);
+//         // Checking for any preexisting
+//         const isExist = await VerifyEmail.findOne({email});
+//         if(isExist) await VerifyEmail.findByIdAndRemove(isExist._id);
 
-        const verifyEmailDB = new VerifyEmail({
-            email,
-            token
-        });
+//         const verifyEmailDB = new VerifyEmail({
+//             email,
+//             token
+//         });
 
-        await verifyEmailDB.save();
+//         await verifyEmailDB.save();
 
-        return res.json({
-            type: 'success',
-            message: 'Code sent successfully!',
-            email,
-        });
+//         return res.json({
+//             type: 'success',
+//             message: 'Code sent successfully!',
+//             email,
+//         });
 
-    } catch (e) {
-        console.log('Line no. 131', e);
-        return next(createError(500, e.message, {errorKey: 'serverErr'}));
-    }
-}
+//     } catch (e) {
+//         console.log('Line no. 131', e);
+//         return next(createError(500, e.message, {errorKey: 'serverErr'}));
+//     }
+// }
 
 
 
-module.exports.verifyCode = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
-    const { email, token } = req.body;
+// module.exports.verifyCode = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
+//     const { email, token } = req.body;
 
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return next(createError(401, errors.errors[0].msg, {errorKey: errors.errors[0].param}));
-        }
+//     try {
+//         const errors = validationResult(req);
+//         if (!errors.isEmpty()) {
+//             return next(createError(401, errors.errors[0].msg, {errorKey: errors.errors[0].param}));
+//         }
 
-        // Checking for any preexisting
-        const isExist = await VerifyEmail.findOne({email});
-        if(!isExist) return next(createError(500, 'Try to send the code again!'));
+//         // Checking for any preexisting
+//         const isExist = await VerifyEmail.findOne({email});
+//         if(!isExist) return next(createError(500, 'Try to send the code again!'));
 
-        const isValid = isExist.token == token;
+//         const isValid = isExist.token == token;
 
-        if(!isValid) return next(createError(500, 'Code is incorrect!'));
+//         if(!isValid) return next(createError(500, 'Code is incorrect!'));
 
-        await VerifyEmail.findByIdAndRemove(isExist._id);
+//         await VerifyEmail.findByIdAndRemove(isExist._id);
 
-        return res.json({
-            type: 'success',
-            message: 'Email verified successfully!',
-            email
-        });
+//         return res.json({
+//             type: 'success',
+//             message: 'Email verified successfully!',
+//             email
+//         });
 
-    } catch (e) {
-        console.log('Line no. 131', e);
-        return next(createError(500, e.message, {errorKey: 'serverErr'}));
-    }
-}
+//     } catch (e) {
+//         console.log('Line no. 131', e);
+//         return next(createError(500, e.message, {errorKey: 'serverErr'}));
+//     }
+// }
