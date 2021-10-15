@@ -282,6 +282,23 @@ async function sendSubscriptionToUsers(req, res, next, {projectId, taskId, exclu
 		}
 	}
 }
+// TODO:- Refactor the code
+function oldObj(obj, task) {
+	const res = {};
+	for(let key in obj) {
+		if(obj.hasOwnProperty(key)) {
+			res[key] = task[key];
+		}
+	}
+	return res;
+}
+// TODO:- Refactor the code
+async function moveToProjectRecursively(taskId, projectId) {
+	const curTask = await Task.findByIdAndUpdate(taskId, {projectId}, {new: true, omitUndefined: true});
+	for(let childId of curTask.childTasks) {
+		await moveToProjectRecursively(childId, projectId);
+	}
+}
 
 export const updateTask = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
 	try {
@@ -326,21 +343,12 @@ export const updateTask = async (req: express.Request, res: express.Response, ne
 
 		// Tracking Activity
 		const updatedObjWithOutUndefined = omitUndefined(updatedObj);
-		function oldObj(obj) {
-			const res = {};
-			for(let key in obj) {
-				if(obj.hasOwnProperty(key)) {
-					res[key] = task[key];
-				}
-			}
-			return res;
-		}
 		const activityObj = {
 			type: 'updateTask',
 			key: 'task user',
 			task: taskId,
 			updatedData: objectString(updatedObjWithOutUndefined),
-			oldData: objectString(oldObj(updatedObjWithOutUndefined)),
+			oldData: objectString(oldObj(updatedObjWithOutUndefined, task)),
 			user: curUserId,
 			timeStamp: new Date().toISOString(),
 		};
@@ -372,13 +380,7 @@ export const updateTask = async (req: express.Request, res: express.Response, ne
 
 		if(projectId) {
 			// This will happen no matter what eventually
-			await moveToProjectRecursively(taskId);
-			async function moveToProjectRecursively(taskId) {
-				const curTask = await Task.findByIdAndUpdate(taskId, {projectId}, {new: true, omitUndefined: true});
-				for(let childId of curTask.childTasks) {
-					await moveToProjectRecursively(childId);
-				}
-			}
+			await moveToProjectRecursively(taskId, projectId);
 		} else {
 			// Updating the task by finding the task by its id
 			task = await Task.findByIdAndUpdate(taskId, {...updatedObj, updatedAt: new Date().toISOString()}, {new: true, omitUndefined: true});
@@ -441,6 +443,7 @@ export const dropTask = async (req: express.Request, res: express.Response, next
 		const draggedId = source.id;
 		const droppedId = dest.id;
 
+		// @ts-ignore
 		async function addToInnerLevel() {
 			// Adding to Inner Level
 			// 1. Adding to Child Tasks
@@ -478,6 +481,7 @@ export const dropTask = async (req: express.Request, res: express.Response, next
 			await draggedTask.save();
 		}
 
+		// @ts-ignore
 		async function removeFromInnerLevel() {
 			// Removing from Inner Level
 			const draggedFromParentId = source.path[source.path.length - 2];

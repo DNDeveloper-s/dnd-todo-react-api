@@ -3,9 +3,9 @@ import User from '../models/User';
 import {constants} from "../helpers/constants";
 import MessagingResponse from "twilio/lib/twiml/MessagingResponse";
 import {createWaTask} from "./taskController";
-const createError = require('http-errors');
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+import createError from 'http-errors';
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -21,14 +21,6 @@ const mailOptions = {
 	subject: 'DND-Todo Reminder',
 	text: 'Do this task related to the time right now!'
 };
-
-// transporter.sendMail(mailOptions, function(error, info){
-// 	if (error) {
-// 		console.log(error);
-// 	} else {
-// 		console.log('Email sent: ' + info.response);
-// 	}
-// });
 
 export const getCurrentUser = async (req: express.Request, res: express.Response, next: (error: any) => void) => {
     // @ts-ignore

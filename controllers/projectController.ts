@@ -28,6 +28,7 @@ export const getProject = async (req: express.Request, res: express.Response, ne
 		if(!project) {
 			return next(createError(404, 'Project not found!'));
 		}
+		// @ts-ignore
 		const tasks = await Task.find({projectId: projectId});
 
 		return res.json({

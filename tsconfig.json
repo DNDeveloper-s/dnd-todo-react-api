@@ -67,13 +67,48 @@
 //    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
 //  }
 //}
+// {
+//   "compilerOptions": {
+//     "target": "es6",
+//     "module": "commonjs",
+//     "rootDir": "./",
+//     "outDir": "./build",
+//     "esModuleInterop": true,
+//     "strict": false
+//   },
+//   "exclude" : [
+//     "/**/*.spec.ts",
+//     "node_modules",
+//     "build"
+//   ]
+// }
+
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es5",                          
+    "module": "commonjs",                    
+    "lib": ["es6"],                     
+    "allowJs": true,
+    "outDir": "build",
     "rootDir": "./",
-    "outDir": "./build",
+    "moduleResolution": "node",
+    "strict": false,         
+    "noImplicitAny": false,
     "esModuleInterop": true,
-    "strict": false
-  }
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "typeRoots" : ["./node_modules/@types"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude" : [
+    "./**/*.spec.ts",
+    "node_modules",
+    "build"
+  ]
 }

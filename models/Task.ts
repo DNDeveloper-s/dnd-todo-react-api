@@ -1,4 +1,4 @@
-import mongoose, {Document, Model, MongooseFilterQuery, Types} from 'mongoose';
+import mongoose, {Document, Model, _FilterQuery, Types} from 'mongoose';
 import {UserInterface} from "./User";
 import {ProjectInterface} from "./Project";
 import {ActivityInterface} from "./Activity";
@@ -58,7 +58,7 @@ export interface TaskInterface {
     priority: number;
     deleted: number;
     isFullDay: boolean;
-    projectId: string | ProjectInterface | MongooseFilterQuery<any>;
+    projectId: string | ProjectInterface | _FilterQuery<any>;
     labelIds: Array<string | LabelInterface>;
     status: {
         completed: boolean;
