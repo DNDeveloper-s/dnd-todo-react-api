@@ -2,10 +2,10 @@
   "name": "dnd-todo-react-api",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "app.js",
   "scripts": {
-    "start": "ts-node app.ts",
-    "dev": "nodemon app.ts",
+    "dev": "ts-node-dev --respawn --notify false --prefer-ts --ignore-watch node_modules -- app.ts",
+    "start": "npm run build && node build/app.js",
     "tsc": "tsc",
     "build": "rimraf ./build && tsc"
   },
@@ -45,6 +45,7 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
     "rimraf": "^3.0.0",
+    "ts-node-dev": "^1.1.8",
     "ts-node": "^9.0.0"
   }
 }
