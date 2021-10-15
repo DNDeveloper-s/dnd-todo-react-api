@@ -88,9 +88,9 @@ mongoose.connect(uri, { useFindAndModify: false }).then(() => {
   // const io = require("./socket.ts")(server);
   const io = require("./socket")(server);
 
-  const job = schedule.scheduleJob('*/606060 * * * *', function() {
-    console.log('[app.ts || Line no. 119 ....]', 'Running thousand time');
-  })
+  // const job = schedule.scheduleJob('*/606060 * * * *', function() {
+  //   console.log('[app.ts || Line no. 119 ....]', 'Running thousand time');
+  // })
 
   app.set("socket.io", io);
 
